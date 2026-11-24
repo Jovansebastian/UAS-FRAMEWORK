@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+jinja2
+python-multipart
+sqlalchemy
+psycopg2-binary
+pymysql
+cryptography
+python-dotenv
+pandas
+numpy
+scikit-learn
+joblib
+openpyxl
+matplotlib

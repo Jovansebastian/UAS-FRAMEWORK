@@ -1,0 +1,96 @@
+{
+  "dataset": {
+    "baris_mentah": 1067371,
+    "baris_bersih": 805549,
+    "jumlah_pelanggan": 5878,
+    "negara": 41,
+    "tanggal_awal": "2009-12-01",
+    "tanggal_akhir": "2011-12-09"
+  },
+  "model": {
+    "algoritma": "K-Means",
+    "k": 4,
+    "fitur": [
+      "Recency",
+      "Frequency",
+      "Monetary"
+    ]
+  },
+  "metrics": {
+    "silhouette_score": 0.3653,
+    "davies_bouldin_index": 0.9303,
+    "calinski_harabasz": 5061.72,
+    "inertia": 4918.64
+  },
+  "elbow": [
+    {
+      "k": 2,
+      "inertia": 8588.8,
+      "silhouette": 0.44
+    },
+    {
+      "k": 3,
+      "inertia": 6352.0,
+      "silhouette": 0.3496
+    },
+    {
+      "k": 4,
+      "inertia": 4918.6,
+      "silhouette": 0.3655
+    },
+    {
+      "k": 5,
+      "inertia": 4097.8,
+      "silhouette": 0.344
+    },
+    {
+      "k": 6,
+      "inertia": 3553.0,
+      "silhouette": 0.3346
+    },
+    {
+      "k": 7,
+      "inertia": 3184.8,
+      "silhouette": 0.3057
+    },
+    {
+      "k": 8,
+      "inertia": 2891.6,
+      "silhouette": 0.2951
+    }
+  ],
+  "clusters": [
+    {
+      "cluster": 0,
+      "segmen": "Champions",
+      "jumlah": 1188,
+      "recency": 16.5,
+      "frequency": 13.0,
+      "monetary": 5126.8
+    },
+    {
+      "cluster": 2,
+      "segmen": "Loyal",
+      "jumlah": 1465,
+      "recency": 185.0,
+      "frequency": 5.0,
+      "monetary": 1509.04
+    },
+    {
+      "cluster": 3,
+      "segmen": "Berpotensi",
+      "jumlah": 1251,
+      "recency": 24.0,
+      "frequency": 3.0,
+      "monetary": 743.17
+    },
+    {
+      "cluster": 1,
+      "segmen": "Hampir Hilang",
+      "jumlah": 1974,
+      "recency": 404.0,
+      "frequency": 1.0,
+      "monetary": 283.58
+    }
+  ]
+}

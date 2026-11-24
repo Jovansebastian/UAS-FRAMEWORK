@@ -1,0 +1,19 @@
+# Rahasia (ada password database)
+.env
+
+# Virtual environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Dataset (file besar, >100 MB bisa ditolak GitHub)
+data/*
+!data/.gitkeep
+
+# VS Code & OS
+.vscode/
+.DS_Store
+Thumbs.db

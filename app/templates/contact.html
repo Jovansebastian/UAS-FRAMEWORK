@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+{% block content %}
+<section class="hero small"><h1>Contact Us</h1><p>Tim pembuat website ini</p></section>
+<section class="team">
+  {% for a in anggota %}
+  <div class="card member">
+    <div class="avatar">{{ a.nama[0] }}</div>
+    <h3>{{ a.nama }}</h3>
+    <p class="muted">{{ a.nim }}</p>
+    <p>{{ a.peran }}</p>
+  </div>
+  {% endfor %}
+</section>
+<section class="card">
+  <p>Mata kuliah: <b>Python Framework</b> · Universitas Bunda Mulia, Jakarta.</p>
+</section>
+{% endblock %}

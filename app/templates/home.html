@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Segmentasi Pelanggan Toko Online</h1>
+  <p>Kenali pelanggan loyal dan yang hampir hilang dengan AI, supaya promo tepat sasaran.</p>
+  <a class="btn" href="/prediksi">Coba Prediksi →</a>
+</section>
+
+<section class="card">
+  <h2>🎯 Tujuan Website</h2>
+  <p>Membantu pemilik toko online mengelompokkan pelanggan berdasarkan perilaku belanja (RFM) menggunakan algoritma
+  <b>K-Means Clustering</b>. Hasilnya berupa segmen pelanggan beserta rekomendasi strategi pemasaran, dan seluruh
+  hasil prediksi disimpan di database untuk dianalisis kembali.</p>
+</section>
+
+{% if not info %}
+<section class="card warn">⚠️ Model belum dilatih. Jalankan <code>python train_model.py</code> terlebih dahulu agar informasi dataset dan model tampil di sini.</section>
+{% else %}
+<section class="card">
+  <h2>🗂️ Informasi Dataset</h2>
+  <p><b>Online Retail II (UCI Machine Learning Repository)</b> — data transaksi toko online asal Inggris yang menjual
+  aneka hadiah dan perlengkapan rumah, kebanyakan pelanggannya adalah reseller/grosir. Kolom utama: Invoice, StockCode, Description, Quantity, InvoiceDate, Price, Customer ID, Country.</p>
+  <div class="stats">
+    <div><span>{{ '{:,}'.format(info.dataset.baris_mentah) }}</span>Baris data mentah</div>
+    <div><span>{{ '{:,}'.format(info.dataset.baris_bersih) }}</span>Baris setelah dibersihkan</div>
+    <div><span>{{ '{:,}'.format(info.dataset.jumlah_pelanggan) }}</span>Pelanggan unik</div>
+    <div><span>{{ info.dataset.negara }}</span>Negara</div>
+  </div>
+  <p class="muted">Periode transaksi: {{ info.dataset.tanggal_awal }} s/d {{ info.dataset.tanggal_akhir }}</p>
+  <p><b>Preprocessing:</b> hapus baris tanpa Customer ID, buang transaksi pembatalan (Invoice berawalan "C"), buang Quantity/Price ≤ 0,
+  hitung RFM per pelanggan, transformasi <code>log1p</code>, lalu <code>StandardScaler</code>.</p>
+</section>
+
+<section class="card">
+  <h2>🤖 Model AI yang Digunakan</h2>
+  <table>
+    <tr><th>Algoritma</th><td>{{ info.model.algoritma }} Clustering (unsupervised), K = {{ info.model.k }}</td></tr>
+    <tr><th>Fitur</th><td>
+      <b>Recency</b>: hari sejak transaksi terakhir ·
+      <b>Frequency</b>: jumlah invoice unik ·
+      <b>Monetary</b>: total uang yang dibelanjakan</td></tr>
+    <tr><th>Penentuan K</th><td>Elbow Method dan Silhouette Score untuk K = 2 sampai 8</td></tr>
+    <tr><th>Penyimpanan</th><td>Model dan scaler disimpan dengan <code>joblib</code> (<code>model/segmentasi_model.joblib</code>)</td></tr>
+  </table>
+
+  <h3>Hasil Evaluasi</h3>
+  <div class="stats">
+    <div><span>{{ info.metrics.silhouette_score }}</span>Silhouette Score<small>↑ makin tinggi makin baik</small></div>
+    <div><span>{{ info.metrics.davies_bouldin_index }}</span>Davies-Bouldin<small>↓ makin rendah makin baik</small></div>
+    <div><span>{{ info.metrics.calinski_harabasz }}</span>Calinski-Harabasz<small>↑ makin tinggi makin baik</small></div>
+  </div>
+
+  <h3>Profil Segmen (nilai median)</h3>
+  <table>
+    <thead><tr><th>Segmen</th><th>Jumlah</th><th>Recency (hari)</th><th>Frequency</th><th>Monetary</th></tr></thead>
+    <tbody>
+    {% for c in info.clusters %}
+      <tr><td><span class="badge s-{{ loop.index0 }}">{{ c.segmen }}</span></td><td>{{ '{:,}'.format(c.jumlah) }}</td><td>{{ c.recency }}</td><td>{{ c.frequency }}</td><td>{{ '{:,.0f}'.format(c.monetary) }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="imgs">
+    <img src="{{ url_for('static', path='img/elbow.png') }}" alt="Elbow">
+    <img src="{{ url_for('static', path='img/cluster.png') }}" alt="Cluster">
+  </div>
+</section>
+{% endif %}
+{% endblock %}
